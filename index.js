@@ -67,6 +67,12 @@ const listenOrientationChange = callback => {
         screenWidth,
         screenHeight
       });
+    } else if (callback && callback.setState === 'function'){
+      callback.setState({
+        orientation: currentOrientation(),
+        screenWidth,
+        screenHeight
+      });
     } else {
       throw new Error("Must pass a set state function (this.setState or setHookState)");
     }
