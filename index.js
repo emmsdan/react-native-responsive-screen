@@ -8,6 +8,14 @@ let screenWidth = Dimensions.get('window').width;
 let screenHeight = Dimensions.get('window').height;
 
 /**
+ * Identifies the current orientation of the screen.
+ * @returns {string} 'portrait' or 'landscape'
+ */
+const currentOrientation = () => {
+  return screenHeight < screenWidth ? 'landscape' : 'portrait';
+}
+
+/**
  * Converts provided width percentage to independent pixel (dp).
  * @param  {string} widthPercent The percentage of screen's width that UI element should cover
  *                               along with the percentage symbol (%).
@@ -38,24 +46,30 @@ const heightPercentageToDP = heightPercent => {
 };
 
 /**
- * Event listener function that detects orientation change (every time it occurs) and triggers 
+ * Event listener function that detects orientation change (every time it occurs) and triggers
  * screen rerendering. It does that, by changing the state of the screen where the function is
  * called. State changing occurs for a new state variable with the name 'orientation' that will
  * always hold the current value of the orientation after the 1st orientation change.
  * Invoke it inside the screen's constructor or in componentDidMount lifecycle method.
- * @param {object} that Screen's class component this variable. The function needs it to
+ * @param {object} callback Screen's callback this variable. The function needs it to
  *                      invoke setState method and trigger screen rerender (this.setState()).
  */
-const listenOrientationChange = that => {
+const listenOrientationChange = callback => {
   Dimensions.addEventListener('change', newDimensions => {
     // Retrieve and save new dimensions
     screenWidth = newDimensions.window.width;
     screenHeight = newDimensions.window.height;
 
     // Trigger screen's rerender with a state update of the orientation variable
-    that.setState({
-      orientation: screenWidth < screenHeight ? 'portrait' : 'landscape'
-    });
+    if (typeof callback === 'function'){
+      callback({
+        orientation: currentOrientation(),
+        screenWidth,
+        screenHeight
+      });
+    } else {
+      throw new Error("Must pass a set state function (this.setState or setHookState)");
+    }
   });
 };
 
@@ -73,5 +87,6 @@ export {
   widthPercentageToDP,
   heightPercentageToDP,
   listenOrientationChange,
-  removeOrientationListener
+  removeOrientationListener,
+  currentOrientation
 };

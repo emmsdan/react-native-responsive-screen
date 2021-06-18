@@ -16,7 +16,7 @@ import {
 
 class Login extends Component {
   componentDidMount() {
-    lor(this);
+    lor(this.setState);
   }
   
   componentWillUnmount() {

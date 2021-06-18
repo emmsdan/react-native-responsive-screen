@@ -42,6 +42,8 @@ Check out [this medium article](https://medium.com/react-native-training/build-r
 # Updates 🚀
 * `v1.4.0` onwards: The library now has flowtype support. Types should work out of the box, no additional setup needed.
 * `widthPercentageToDP` and `heightPercentageToDP` methods accept numeric values as well from version 1.2.1 onwards. That being said a width of 53% can now be written both `width: widthPercentageToDP('53%')` and `width: widthPercentageToDP(53)`.
+* added `currentOrientation()` get the current screen orientation
+* `listenOrientationChange` can be used in both class and functional components. Accepts a `callback(result)`, e.g: `this.setState` or `setHooksState` 
 
 # Examples
 
